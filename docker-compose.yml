@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP: "api"
+    image: energy-suite-api:latest
+    container_name: energy-api
+    ports:
+      - "8000:8000"
+    environment:
+      - APP=api
+    volumes:
+      - ./artifacts:/app/artifacts:ro
+      - ./data:/app/data:ro
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP: "streamlit"
+    image: energy-suite-streamlit:latest
+    container_name: energy-dashboard
+    depends_on:
+      - api
+    ports:
+      - "8501:8501"
+    environment:
+      - APP=streamlit
+    volumes:
+      - ./artifacts:/app/artifacts:ro
+      - ./data:/app/data:ro
+    restart: unless-stopped
+
