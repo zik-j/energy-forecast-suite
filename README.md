@@ -10,3 +10,11 @@ It includes:
 
 ---
 
+## 1. Quick Start
+
+### 1.1 Create & activate venv
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
