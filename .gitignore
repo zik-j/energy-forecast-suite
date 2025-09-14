@@ -1,28 +1,13 @@
-# --- Python / build / cache ---
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
-*.pyd
-*.so
-.pytest_cache/
-*.egg-info/
-.eggs/
-build/
-dist/
-.coverage
-.ipynb_checkpoints/
 
-# --- OS ---
+# venv
+.venv/
+
+# OS
 .DS_Store
 
-# --- Virtual env ---
-.venv/
-venv/
-
-# --- Project outputs (默认忽略回测产物；如果只保留样例，可放开下面三条) ---
-docs/strategy/*
-
-# 如需“保留三份样例”但忽略其它产物，可取消下面三行注释（去掉每行开头的 #）：
-#!docs/strategy/equity_forecast_csv_arima_sma.png
-#!docs/strategy/metrics_forecast_csv_arima_sma.json
-#!docs/strategy/pnl_forecast_csv_arima_sma.csv
+# pytest cache
+.pytest_cache/
