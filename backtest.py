@@ -224,7 +224,8 @@ def build_parser():
                    help="signal threshold for forecast mode")
     p.add_argument("--cost_bps", type=float, default=5.0,
                    help="round-trip cost in basis points")
-
+    p.add_argument("--slippage_bps", type=float, default=0.0,
+                   help="extra slippage cost in bps (in addition to cost_bps)")
     p.add_argument("--api_url", type=str, default="http://127.0.0.1:8000/predict",
                    help="FastAPI endpoint for mode=api")
     return p
@@ -232,4 +233,5 @@ def build_parser():
 if __name__ == "__main__":
     parser = build_parser()
     args = parser.parse_args()
+    args.cost_bps = float(args.cost_bps) + float(args.slippage_bps)
     run_backtest(args)
