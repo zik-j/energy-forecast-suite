@@ -172,6 +172,15 @@ Example outputs (under docs/strategy/)
 
 Preview
 
+![Equity curve (ARIMA sample)](docs/strategy/equity_forecast_csv_arima_sma.png)
+
+**Metrics (ARIMA sample)**
+
+| Sharpe | MaxDD | WinRate | Trades |
+| ---: | ---: | ---: | ---: |
+| 1.23 | -5.6% | 54.0% | 137 |
+
+
 Metrics (ARIMA sample)
 
 SharpeMaxDDWinRateTrades
