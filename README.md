@@ -124,15 +124,19 @@ energy-forecast-suite/
 
 ⸻
 
+
+⸻
+
 6. Backtest (Quant Strategy Prototype)
 
 Turn forecasts or raw prices into trading signals, compute PnL, and export Sharpe / Max Drawdown / Win Rate plus equity curve.
+
+We use effective_cost_bps = cost_bps + slippage_bps (in basis points).
 
 All outputs are saved under docs/strategy/.
 
 A) From forecast CSV (ARIMA/XGB)
 
-# Example with ARIMA sample CSV
 python backtest.py --mode forecast_csv \
   --forecast_csv docs/samples/forecast_arima.csv \
   --threshold 0.0 \
@@ -140,40 +144,40 @@ python backtest.py --mode forecast_csv \
 
 B) From raw prices with SMA/EMA signals
 
-# SMA(5,20)
+SMA(5,20)
+
 python backtest.py --mode raw_price --signal_type sma \
   --fast 5 --slow 20 --cost_bps 5
 
-# EMA(8,21)
+EMA(8,21)
+
 python backtest.py --mode raw_price --signal_type ema \
   --fast 8 --slow 21 --cost_bps 5
 
 C) Call live API for forecasts
 
-# In another terminal (activate venv), run the API:
+In another terminal (activate venv), run the API:
+
 uvicorn app.api:app --reload  # http://127.0.0.1:8000/predict
 
-# Backtest by calling the API online:
+Backtest by calling the API online:
+
 python backtest.py --mode api --model arima --horizon 14 \
   --api_url http://127.0.0.1:8000/predict --cost_bps 5
 
 Example outputs (under docs/strategy/)
+•pnl_forecast_csv_arima_sma.csv
+•metrics_forecast_csv_arima_sma.json
+•equity_forecast_csv_arima_sma.png
 
-pnl_forecast_csv_arima_sma.csv
-metrics_forecast_csv_arima_sma.json
-equity_forecast_csv_arima_sma.png
+Preview
 
-**Preview**
+Metrics (ARIMA sample)
 
-![Equity curve (ARIMA sample)](docs/strategy/equity_forecast_csv_arima_sma.png)
+SharpeMaxDDWinRateTrades
+1.23-5.6%54.0%137
 
-**Metrics (ARIMA sample)**
-
-| Sharpe | MaxDD | WinRate | Trades |
-|-------:|------:|--------:|------:|
-|  1.23  | -5.6% |  54.0%  |  137  |
-
->data from  docs/strategy/metrics_forecast_csv_arima_sma.json
+data from docs/strategy/metrics_forecast_csv_arima_sma.json
 
 ⸻
 
@@ -182,12 +186,3 @@ equity_forecast_csv_arima_sma.png
 Run the unit tests (pytest):
 
 python -m pytest -q
-
-
-⸻
-
-Notes
-	•	Keep artifacts/ in the repo so the demo models can load immediately.
-	•	When running inside Docker on Linux, XGBoost often needs libgomp1. The provided Dockerfile installs it.
-	•	If you see permission issues on mounted folders, check bind-mount options on your OS.
-	•	Backtest outputs are kept under docs/strategy/ to make review easy (PnL/metrics/equity).
